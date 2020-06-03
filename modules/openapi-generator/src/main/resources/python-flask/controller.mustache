@@ -107,6 +107,9 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{/items}}
         {{/isMapContainer}}
     {{/allParams}}
-    return 'do some magic!'
+    
+    result = {{operationId}}({{#allParams}}{{paramName}}={{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    
+    return result
 {{/operation}}
 {{/operations}}
