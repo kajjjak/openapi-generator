@@ -1,5 +1,5 @@
 # After changing templates run
-#      mvn clean install
+mvn clean install
 
 # Build the container
 BID=$(docker build --quiet modules/openapi-generator-online)

@@ -8,3 +8,6 @@ python_dateutil >= 2.6.0
 typing >= 3.5.2.2
 {{/supportPython2}}
 setuptools >= 21.0.0
+{[%- for library in require.import.library %]}
+{[{library}]}
+{[%- endfor %]} 
