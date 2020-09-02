@@ -1,6 +1,8 @@
 #!/bin/bash
 set -exo pipefail
 
+mvn clean install
+
 cd "$(dirname ${BASH_SOURCE})"
 
 maven_cache_repo="${HOME}/.m2/repository"

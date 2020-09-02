@@ -1,3 +1,4 @@
+deploy2firebase.sh
 .mvn/.gradle-enterprise/
 .scannerwork/
 .vscode

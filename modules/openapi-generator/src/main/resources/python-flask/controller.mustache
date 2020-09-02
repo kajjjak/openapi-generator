@@ -4,9 +4,11 @@ import six
 {{#imports}}{{import}}  # noqa: E501
 {{/imports}}
 from {{packageName}} import util
+
+{[{ require.import.code }]}
+
 {{#operations}}
 {{#operation}}
-
 
 def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}):  # noqa: E501
     """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
@@ -107,6 +109,8 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{/items}}
         {{/isMapContainer}}
     {{/allParams}}
-    return 'do some magic!'
+    
+    result = {[{ require.operation.{{operationIdCamelCase}}.call }]}({{#allParams}}{{paramName}}={{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    return result
 {{/operation}}
 {{/operations}}
