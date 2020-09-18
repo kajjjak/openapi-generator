@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -43,6 +42,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean withXml = false;
     protected boolean enumClassPrefix = false;
     protected boolean structPrefix = false;
+    protected boolean generateInterfaces = false;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -94,7 +94,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "byte",
                         "map[string]interface{}",
                         "interface{}"
-                        )
+                )
         );
 
         instantiationTypes.clear();
@@ -130,7 +130,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // in golang as interface{}.
         // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
-        typeMapping.put("interface{}", "interface{}");
         typeMapping.put("AnyType", "interface{}");
 
         numberTypes = new HashSet<String>(
@@ -209,6 +208,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // for reserved word or word starting with number, append _
         if (name.matches("^\\d.*"))
             name = "Var" + name;
+
+        if ("AdditionalProperties".equals(name)) {
+            // AdditionalProperties is a reserved field (additionalProperties: true), use AdditionalPropertiesField instead
+            return "AdditionalPropertiesField";
+        }
 
         return name;
     }
@@ -320,7 +324,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     /**
      * Return the golang implementation type for the specified property.
-     * 
+     *
      * @param p the OAS property.
      * @return the golang implementation type.
      */
@@ -378,7 +382,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     /**
      * Return the OpenAPI type for the property.
-     * 
+     *
      * @param p the OAS property.
      * @return the OpenAPI type.
      */
@@ -404,20 +408,19 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     /**
      * Determines the golang instantiation type of the specified schema.
-     *
+     * <p>
      * This function is called when the input schema is a map, and specifically
      * when the 'additionalProperties' attribute is present in the OAS specification.
      * Codegen invokes this function to resolve the "parent" association to
      * 'additionalProperties'.
-     *
+     * <p>
      * Note the 'parent' attribute in the codegen model is used in the following scenarios:
      * - Indicate a polymorphic association with some other type (e.g. class inheritance).
      * - If the specification has a discriminator, cogegen create a “parent” based on the discriminator.
      * - Use of the 'additionalProperties' attribute in the OAS specification.
-     *   This is the specific scenario when codegen invokes this function.
+     * This is the specific scenario when codegen invokes this function.
      *
      * @param property the input schema
-     *
      * @return the golang instantiation type of the specified property.
      */
     @Override
@@ -628,7 +631,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     }
                 }
 
-                if (this instanceof GoClientExperimentalCodegen && model.isEnum) {
+                if (this instanceof GoClientCodegen && model.isEnum) {
                     imports.add(createMapping("import", "fmt"));
                 }
 
@@ -776,6 +779,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setStructPrefix(boolean structPrefix) {
         this.structPrefix = structPrefix;
+    }
+
+    public void setGenerateInterfaces(boolean generateInterfaces) {
+        this.generateInterfaces = generateInterfaces;
     }
 
     @Override

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
@@ -52,8 +53,8 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "where to write the generated files (current dir by default)")
     private String output = "";
 
-    @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
-            description = "location of the OpenAPI spec, as URL or file (required)")
+    @Option(name = {"-i", "--input-spec"}, title = "spec file",
+            description = "location of the OpenAPI spec, as URL or file (required if not loaded via config using -c)")
     private String spec;
 
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
@@ -233,7 +234,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " Useful for piping the JSON output of debug options (e.g. `--global-property debugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
-    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE_DESC)
+    @Option(name = {"--enable-post-process-file"}, title = "enable post-processing of files (in generators supporting it)", description = CodegenConstants.ENABLE_POST_PROCESS_FILE_DESC)
     private Boolean enablePostProcessFile;
 
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
@@ -264,6 +265,10 @@ public class Generate extends OpenApiGeneratorCommand {
             if (configFile != null && configFile.length() > 0) {
                 // attempt to load from configFile
                 configurator = CodegenConfigurator.fromFile(configFile);
+            } else if (StringUtils.isEmpty(spec)) {
+                // if user doesn't pass configFile and does not pass spec, we can fail immediately because one of these two is required to run.
+                System.err.println("[error] Required option '-i' is missing");
+                System.exit(1);
             }
 
             // if a config file wasn't specified, or we were unable to read it
@@ -295,11 +300,9 @@ public class Generate extends OpenApiGeneratorCommand {
             configurator.setInputSpec(spec);
         }
 
+        // Generator name should not be validated here, as it's validated in toClientOptInput
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
-        } else {
-            System.err.println("[error] A generator name (--generator-name / -g) is required.");
-            System.exit(1);
         }
 
         if (isNotEmpty(output)) {

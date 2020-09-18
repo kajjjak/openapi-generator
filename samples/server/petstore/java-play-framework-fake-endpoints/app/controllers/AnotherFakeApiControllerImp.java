@@ -9,10 +9,10 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import javax.validation.constraints.*;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class AnotherFakeApiControllerImp implements AnotherFakeApiControllerImpInterface {
     @Override
-    public Client call123testSpecialTags(Client body) throws Exception {
+    public Client call123testSpecialTags(Http.Request request, Client body) throws Exception {
         //Do your magic!!!
         return new Client();
     }

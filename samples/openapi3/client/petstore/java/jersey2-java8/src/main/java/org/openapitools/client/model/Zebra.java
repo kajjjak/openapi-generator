@@ -13,17 +13,24 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * Zebra
@@ -32,8 +39,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Zebra.JSON_PROPERTY_TYPE,
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
-
-public class Zebra extends HashMap<String, Object> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class Zebra {
   /**
    * Gets or Sets type
    */
@@ -79,7 +86,6 @@ public class Zebra extends HashMap<String, Object> {
 
 
   public Zebra type(TypeEnum type) {
-    
     this.type = type;
     return this;
   }
@@ -104,7 +110,6 @@ public class Zebra extends HashMap<String, Object> {
 
 
   public Zebra className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -126,9 +131,49 @@ public class Zebra extends HashMap<String, Object> {
     this.className = className;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public Zebra putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+  /**
+   * Return true if this zebra object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -137,13 +182,13 @@ public class Zebra extends HashMap<String, Object> {
     }
     Zebra zebra = (Zebra) o;
     return Objects.equals(this.type, zebra.type) &&
-        Objects.equals(this.className, zebra.className) &&
-        super.equals(o);
+        Objects.equals(this.className, zebra.className)&&
+        Objects.equals(this.additionalProperties, zebra.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, className, super.hashCode());
+    return Objects.hash(type, className, additionalProperties);
   }
 
 
@@ -151,9 +196,9 @@ public class Zebra extends HashMap<String, Object> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Zebra {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -162,7 +207,7 @@ public class Zebra extends HashMap<String, Object> {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

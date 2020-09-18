@@ -15,9 +15,12 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,6 +29,8 @@ import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * Pet
@@ -38,7 +43,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -97,7 +102,6 @@ public class Pet {
 
 
   public Pet id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -122,7 +126,6 @@ public class Pet {
 
 
   public Pet category(Category category) {
-    
     this.category = category;
     return this;
   }
@@ -147,7 +150,6 @@ public class Pet {
 
 
   public Pet name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -171,7 +173,6 @@ public class Pet {
 
 
   public Pet photoUrls(List<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -200,7 +201,6 @@ public class Pet {
 
 
   public Pet tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -233,7 +233,6 @@ public class Pet {
 
 
   public Pet status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -257,8 +256,11 @@ public class Pet {
   }
 
 
+  /**
+   * Return true if this Pet object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -298,7 +300,7 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

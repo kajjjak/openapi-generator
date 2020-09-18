@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -117,3 +116,4 @@ model_type_holder_example.go
 model_user.go
 model_xml_item.go
 response.go
+utils.go
