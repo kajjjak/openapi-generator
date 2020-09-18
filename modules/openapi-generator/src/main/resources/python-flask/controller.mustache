@@ -5,7 +5,17 @@ import six
 {{/imports}}
 from {{packageName}} import util
 
+{[%- if require.import %]}
+{[%- if require.import.library %]}
+{[% for library in require.import.library %]}
+{[{ library }]}
+{[% endfor %]}
+{[%- else %]}
 {[{ require.import.code }]}
+{[%- endif %]}
+{[%- else %]}
+# No required imports detected
+{[%- endif %]}
 
 {{#operations}}
 {{#operation}}

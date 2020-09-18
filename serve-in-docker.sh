@@ -1,5 +1,5 @@
 # After changing templates run
-mvn clean install
+./mvnw clean install
 
 # Build the container
 BID=$(docker build --quiet modules/openapi-generator-online)
@@ -21,5 +21,5 @@ curl -X POST --header 'Content-Type: application/json' \
 # wget http://localhost:8888/api/gen/download/c2d483.3.4672-40e9-91df-b9ffd18d22b8
 # Unzip the file
 # unzip c2d483.3.4672-40e9-91df-b9ffd18d22b8
-# Shutdown the openapi generator image
+# Shutdown the openapi generator image 
 echo "TODO Cleanup -- docker stop ${CID} && docker rm ${CID}"
