@@ -1,5 +1,6 @@
 import connexion
 import six
+import werkzeug.exceptions
 
 {{#imports}}{{import}}  # noqa: E501
 {{/imports}}
@@ -120,7 +121,17 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{/isMapContainer}}
     {{/allParams}}
     
-    result = {[{ require.operation.{{operationIdCamelCase}}.call }]}({{#allParams}}{{paramName}}={{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    try:
+        result = {[{ require.operation.{{operationIdCamelCase}}.call }]}({{#allParams}}{{paramName}}={{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    except ValueError as err:
+        #  https://github.com/zalando/connexion/blob/master/connexion/exceptions.py
+        raise connexion.exceptions.BadRequestProblem(detail=str(err))    
+    except UserWarning as err:
+        #  https://werkzeug.palletsprojects.com/en/1.0.x/exceptions/#werkzeug.exceptions.Forbidden
+        raise werkzeug.exceptions.Forbidden(description=str(err))
+    except ResourceWarning as err:
+        #  https://werkzeug.palletsprojects.com/en/1.0.x/exceptions/#werkzeug.exceptions.Locked
+        raise werkzeug.exceptions.UnprocessableEntity(description=str(err))
     return result
 {{/operation}}
 {{/operations}}
