@@ -1,3 +1,8 @@
+<h1 align="center">Update</h1>
+
+Run modules/openapi-generator-online/deploy2firebase.sh 
+Having a copy in the mail with same name.
+
 <h1 align="center">OpenAPI Generator</h1>
 
 
